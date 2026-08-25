@@ -38,7 +38,7 @@ github:
 git clone https://github.com/gooin/dailysync-rev.git
 ```
 ### 修改配置文件
-打开`.env`文件，按注释填入信息。Docker 运行会通过 `docker-compose.yml` 的 `env_file` 读取 `.env`；本地 `yarn` 运行也会自动读取项目根目录的 `.env`。
+复制模板文件为 `.env`（`cp .env.example .env`），按注释填入信息。Docker 运行会通过 `docker-compose.yml` 的 `env_file` 读取 `.env`；本地 `yarn` 运行也会自动读取项目根目录的 `.env`。
 
 ```dotenv
 # 佳明中国区账号密码，对应 https://connect.garmin.cn/
@@ -77,9 +77,9 @@ GARMIN_WELLNESS_MIGRATE_START_DAYS=0
 
 注意：`.env` 的值不要带引号或分号——`docker run --env-file` 不会剥引号、分号会被当成值的一部分（会变成错误密码或 NaN 参数）。
 
-### 修改docker-compsoe.yml 文件
+### 修改docker-compose.yml 文件
 
-可以通过修改文件中的`command`参数决定每次执行的功能。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
+修改 `docker-compose.yml` 中 `services.daily-sync.command` 的值即可决定每次启动执行的功能，默认是国区同步到国际区（`yarn sync_cn`）。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
 
 历史迁移同理：`migrate_garmin_*` 只迁移活动数据；`migrate_wellness_*` 只迁移 Wellness 健康数据；`migrate_all_*` 会迁移活动数据和 Wellness 健康数据。
 
@@ -153,7 +153,7 @@ yarn migrate_wellness_cn_to_global
 迁移历史 Wellness 健康数据：国际区到中国区（按 `GARMIN_WELLNESS_MIGRATE_DAYS` 和 `GARMIN_WELLNESS_MIGRATE_START_DAYS`）
 ```shell
 yarn migrate_wellness_global_to_cn
-```
+``` (Fix .env semicolon NaN bug; add .env.example with sample values; document compose command & .env params)
 
 ### 打包运行一次项目
 ```shell
