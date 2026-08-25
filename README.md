@@ -153,7 +153,7 @@ yarn migrate_wellness_cn_to_global
 迁移历史 Wellness 健康数据：国际区到中国区（按 `GARMIN_WELLNESS_MIGRATE_DAYS` 和 `GARMIN_WELLNESS_MIGRATE_START_DAYS`）
 ```shell
 yarn migrate_wellness_global_to_cn
-``` (Fix .env semicolon NaN bug; add .env.example with sample values; document compose command & .env params)
+```
 
 ### 打包运行一次项目
 ```shell
